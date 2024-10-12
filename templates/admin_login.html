@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login:Admin</title>
+    <link rel="stylesheet" href="/static/admin_login.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="wrapper">
+        <span class="bg-animate"></span>
+        <div class="form-box login">
+            <h2>Login</h2>
+            <form action="/validate_admin" method="post">
+                <div class="input-box">
+                    <input id ="username" name="username" type="text" required>
+                    <label>Username</label>
+                    <i class='bx bxs-user' ></i>
+                </div>
+                <div class="input-box">
+                    <input  id ="password" name="password"type="password" required>
+                    <label>Password</label>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+        <div class="info-text login">
+            <h2>
+                Welcome  Admin!
+            </h2>
+            <p>
+                Enter your credentials to log in.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
