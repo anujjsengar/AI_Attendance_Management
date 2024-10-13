@@ -13,29 +13,12 @@ connection_string = f"mongodb+srv://{encoded_username_database}:{encoded_passwor
 client = pymongo.MongoClient(connection_string)
 
 new_db = client["Project"]
-admin= new_db["admin"]
-new_db = client["Project"]
 fs=fs = gridfs.GridFS(new_db)
 student= new_db["student"]
 app=Flask(__name__)
 @app.route('/')
 def index():
-    return render_template('admin_login.html')
-@app.route('/validate_admin',methods=['GET','POST'])
-def validate_admin():
-    def check_user_credentials(input_username,input_password):
-        user=admin.find_one({"username":input_username,"password":input_password})
-        return user is not None
-
-    if(request.method=="POST"):
-        username = request.form.get('username')
-        password = request.form.get("password")
-        if(check_user_credentials(username,password)):
-            print("Login Successfully!")
-            return render_template('new_student.html')
-        else:
-            print("Invalid!")
-            return render_template('unsuccess.html')
+    return render_template('new_student.html')
 @app.route('/new_student',methods=['GET','POST'])
 def new_student():
     if(request.method=="POST"):
