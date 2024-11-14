@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get GPS Location</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #location {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        #map {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Find My Location</h1>
+
+    <div id="location"></div>
+    <div id="map"></div>
+
+    <script>
+        // Call getLocation when the page loads
+        window.onload = function() {
+            getLocation();
+        };
+
+        function getLocation() {
+            console.log("Getting location...");
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById('location').innerHTML = "Geolocation is not supported by this browser.";
+                console.log("Geolocation not supported.");
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+            document.getElementById('location').innerHTML = `Latitude: ${latitude}, Longitude: ${longitude}`;
+
+            // Show location on Google Maps
+            const mapFrame = document.createElement('iframe');
+            mapFrame.width = '100%';
+            mapFrame.height = '400px';
+            mapFrame.src = `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
+            document.getElementById('map').innerHTML = '';
+            document.getElementById('map').appendChild(mapFrame);
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("Permission denied.");
+                    document.getElementById('location').innerHTML = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Position unavailable.");
+                    document.getElementById('location').innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    console.log("Timeout.");
+                    document.getElementById('location').innerHTML = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("Unknown error.");
+                    document.getElementById('location').innerHTML = "An unknown error occurred.";
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>

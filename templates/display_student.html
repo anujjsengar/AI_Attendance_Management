@@ -1,0 +1,79 @@
+<!-- display_student.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+    <style>
+        /* Base Styling */
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #081b29;
+            color: #333;
+        }
+
+        /* Student Details Container */
+        .student-details {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 350px;
+            text-align: center;
+        }
+
+        /* Header */
+        h2 {
+            font-size: 24px;
+            color: #081b29;
+            margin-bottom: 20px;
+        }
+
+        /* Profile Image */
+        .student-details img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #0ef;
+        }
+
+        /* Student Info */
+        .student-info {
+            font-size: 16px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .student-info p {
+            margin: 8px 0;
+        }
+
+        /* Labels */
+        .student-info strong {
+            color: #081b29;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="student-details">
+        <h2>Student Information</h2>
+        <img src="{{ url_for('static', filename='images/' + student['Image']) }}" alt="Profile Picture">
+        <div class="student-info">
+            <p><strong>Roll Number:</strong> {{ student['Roll_no'] }}</p>
+            <p><strong>Student Name:</strong> {{ student['Student_Name'] }}</p>
+            <p><strong>Password:</strong> {{ student['Password'] }}</p>
+            <p><strong>Section:</strong> {{ student['Section'] }}</p>
+        </div>
+    </div>
+</body>
+</html>

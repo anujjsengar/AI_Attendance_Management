@@ -1,0 +1,80 @@
+<!-- display_student.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Mapped Details</title>
+    <style>
+        /* Base Styling */
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #081b29;
+            color: #333;
+        }
+
+        /* Student Details Container */
+        .student-details {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 350px;
+            text-align: center;
+        }
+
+        /* Header */
+        h2 {
+            font-size: 24px;
+            color: #081b29;
+            margin-bottom: 20px;
+        }
+
+        /* Profile Image */
+        .student-details img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #0ef;
+        }
+
+        /* Student Info */
+        .student-info {
+            font-size: 16px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .student-info p {
+            margin: 8px 0;
+        }
+
+        /* Labels */
+        .student-info strong {
+            color: #081b29;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="student-details">
+        <h2>Mapped Class</h2>
+        
+        <div class="student-info">
+            <p><strong>ClassID:</strong> {{ data['Class_ID'] }}</p>
+            <p><strong>Section:</strong> {{ data['Section'] }}</p>
+            <p><strong>Room Number</strong> {{ data['Room'] }}</p>
+            <p><strong>Date:</strong> {{ data['Date'] }}</p>
+            <p><strong>Time:</strong> {{ data['Time'] }}</p>
+        </div>
+    </div>
+</body>
+</html>

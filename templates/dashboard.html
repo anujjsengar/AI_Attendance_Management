@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_Dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h2>Dashboard</h2>
+            <ul>
+                <li><a href="{{ url_for('add_student') }}" target="content">Add Student</a></li>
+                <li><a href="{{ url_for('show_student') }}" target="content">Show Students</a></li>
+                <li><a href="{{ url_for('room_add') }}" target="content">Add Room</a></li>
+                <li><a href="{{ url_for('show_room') }}" target="content">Show Rooms</a></li>
+                <li><a href="{{ url_for('class_map') }}" target="content">Map Class</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <iframe name="content" src="{{ url_for('start_dashboard') }}" frameborder="0"></iframe>
+        </div>
+    </div>
+</body>
+</html>

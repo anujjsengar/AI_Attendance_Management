@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Location</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #location {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        #map {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Enter Your Location or Use GPS</h1>
+
+    <!-- Manual Entry Form -->
+    <form id="locationForm">
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitude" placeholder="Enter Latitude" required><br>
+
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitude" placeholder="Enter Longitude" required><br>
+
+        <button type="button" onclick="showMap()">Show Map</button>
+    </form>
+
+    <!-- Autofetch Location Button -->
+    <button onclick="getLocation()">Use My Location</button>
+
+    <div id="location"></div>
+    <div id="map"></div>
+
+    <script>
+        // Auto-fetch the user's location
+        function getLocation() {
+            console.log("Fetching location...");
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(fillLocation, showError);
+            } else {
+                document.getElementById('location').innerHTML = "Geolocation is not supported by this browser.";
+                console.log("Geolocation not supported.");
+            }
+        }
+
+        // Fill in the latitude and longitude fields automatically
+        function fillLocation(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
+            // Fill the form inputs with fetched values
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+
+            // Automatically show the map after autofetching the location
+            showMap();
+        }
+
+        // Show the map based on the entered or fetched latitude and longitude
+        function showMap() {
+            const latitude = document.getElementById('latitude').value;
+            const longitude = document.getElementById('longitude').value;
+
+            if (latitude && longitude) {
+                document.getElementById('location').innerHTML = `Latitude: ${latitude}, Longitude: ${longitude}`;
+
+                // Display location on Google Maps
+                const mapFrame = document.createElement('iframe');
+                mapFrame.width = '100%';
+                mapFrame.height = '400px';
+                mapFrame.src = `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
+                document.getElementById('map').innerHTML = '';
+                document.getElementById('map').appendChild(mapFrame);
+            } else {
+                document.getElementById('location').innerHTML = "Please enter valid latitude and longitude.";
+            }
+        }
+
+        // Error handling for geolocation errors
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById('location').innerHTML = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById('location').innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById('location').innerHTML = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById('location').innerHTML = "An unknown error occurred.";
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>
