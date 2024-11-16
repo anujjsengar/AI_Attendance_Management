@@ -100,7 +100,7 @@
                 <td>{{ student.Section }}</td>
                 <td>
                     {% if student.Image %}
-                        <a href="{{ url_for('view_image', image_id=student.Image) }}">View Image</a>
+                        <a href="{{ url_for('get_image', image_id=student.Image) }}" alt="No image" onerror="console.log('Image failed to load')">View Image</a>
                     {% else %}
                         No Image
                     {% endif %}

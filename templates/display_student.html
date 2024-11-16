@@ -67,7 +67,7 @@
 <body>
     <div class="student-details">
         <h2>Student Information</h2>
-        <img src="{{ url_for('static', filename='images/' + student['Image']) }}" alt="Profile Picture">
+        <img src="{{ url_for('get_image', image_id=student.Image) }}" alt="Profile Picture" onerror="console.log('Image failed to load')">
         <div class="student-info">
             <p><strong>Roll Number:</strong> {{ student['Roll_no'] }}</p>
             <p><strong>Student Name:</strong> {{ student['Student_Name'] }}</p>

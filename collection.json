@@ -1,0 +1,115 @@
+{
+    "admin": {
+        "description": "Stores information for admin users who can access the dashboard.",
+        "fields": {
+            "username": {
+                "type": "string",
+                "description": "Unique username for the admin"
+            },
+            "password": {
+                "type": "string",
+                "description": "Password for the admin"
+            }
+        }
+    },
+    "student_table": {
+        "description": "Holds details of each student, including personal info and profile picture.",
+        "fields": {
+            "Roll_no": {
+                "type": "int",
+                "description": "Unique roll number of the student"
+            },
+            "Student_Name": {
+                "type": "string",
+                "description": "Name of the student"
+            },
+            "Password": {
+                "type": "string",
+                "description": "Password for the student to access the system"
+            },
+            "Section": {
+                "type": "string",
+                "description": "Section the student belongs to"
+            },
+            "Image": {
+                "type": "ObjectId",
+                "description": "ID reference to the student's profile picture in GridFS"
+            }
+        }
+    },
+    "Room_data": {
+        "description": "Contains information about rooms, including location details.",
+        "fields": {
+            "room_no": {
+                "type": "string",
+                "description": "Unique room number identifier"
+            },
+            "block_no": {
+                "type": "string",
+                "description": "Block number or building section"
+            },
+            "lat": {
+                "type": "float",
+                "description": "Latitude of the room's location"
+            },
+            "long": {
+                "type": "float",
+                "description": "Longitude of the room's location"
+            }
+        }
+    },
+    "Mapped_Class": {
+        "description": "Maps classes to specific rooms, dates, and times.",
+        "fields": {
+            "Class_ID": {
+                "type": "int",
+                "description": "Unique class mapping ID, auto-incremented"
+            },
+            "Section": {
+                "type": "string",
+                "description": "Section associated with the class"
+            },
+            "Room": {
+                "type": "string",
+                "description": "Room number where the class is held"
+            },
+            "Date": {
+                "type": "date",
+                "description": "Date of the class"
+            },
+            "Time": {
+                "type": "string",
+                "description": "Time of the class (e.g., '09:00 AM')"
+            }
+        }
+    },
+    "GridFS": {
+        "description": "Stores large files such as images for student profile pictures.",
+        "fields": {
+            "_id": {
+                "type": "ObjectId",
+                "description": "Unique ID for each file in GridFS"
+            },
+            "filename": {
+                "type": "string",
+                "description": "Original filename of the image"
+            },
+            "uploadDate": {
+                "type": "date",
+                "description": "Date when the file was uploaded"
+            },
+            "length": {
+                "type": "int",
+                "description": "Size of the file in bytes"
+            },
+            "chunkSize": {
+                "type": "int",
+                "description": "Size of each chunk in bytes"
+            },
+            "md5": {
+                "type": "string",
+                "description": "MD5 checksum of the file"
+            }
+        }
+    }
+}

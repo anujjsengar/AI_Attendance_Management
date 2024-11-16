@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, send_file, url_for, flash
 import pymongo
 from pymongo import DESCENDING
 import gridfs
 from bson.binary import Binary
 from io import BytesIO
 from urllib.parse import quote_plus
-
+from bson import ObjectId
 database_username = "anujjsengar"
 database_password = "Anuj@082004"
 encoded_username_database = quote_plus(database_username)
@@ -58,13 +58,14 @@ def new_student():
         Profile_Pic = request.files["photo"]
         image_data=Binary(Profile_Pic.read())
 
-        image_id = fs.put(Profile_Pic, filename=Profile_Pic.filename)
+        image_id = fs.put(Profile_Pic.read(), filename=Profile_Pic.filename)
+        print("Stored image with ID:", image_id)
         new_student_data = {
             "Roll_no": Roll_no,
             "Student_Name": Student_Name,
             "Password": Password,
             "Section": section,
-            "Image": image_id
+            "Image": image_data
         }
         student_collection.insert_one(new_student_data)
 
@@ -74,10 +75,20 @@ def new_student():
             "Student_Name": Student_Name,
             "Password": Password,
             "Section": section,
-            "Image": Profile_Pic.filename
+            "Image": image_id
         })
 
-    return render_template("success.html")
+    return render_template("unsuccess.html")
+@app.route('/get_image/<image_id>')
+def get_image(image_id):
+    try:
+        if(db.fs.files.find({ "_id": ObjectId(image_id) })):
+            print("available")
+        image = fs.get(ObjectId(image_id))
+        return app.response_class(image.read(), mimetype='image/jpeg') 
+    except gridfs.errors.NoFile:
+        return "Image not found", 404
+
 @app.route('/add_room', methods=['GET', 'POST'])
 def add_room():
     if(request.method=="POST"):
@@ -102,14 +113,6 @@ def add_room():
 def show_students():
     students = list(student_collection.find())
     return render_template('students_table.html', students=students)
-@app.route('/profile_pic/<image_id>')
-def view_image(image_id):
-    try:
-        # Retrieve the image from GridFS
-        image_data = fs.get(image_id).read()
-        return send_file(BytesIO(image_data), mimetype='image/jpeg')
-    except gridfs.errors.NoFile:
-        return "Image not found", 40
 @app.route('/add_student')
 def add_student():
     return render_template('new_student.html')

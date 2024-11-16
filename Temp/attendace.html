@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Attendance</h1>
+    
+    <!-- Chart Container -->
+    <div class="chart-container">
+        <canvas id="attendanceChart"></canvas>
+    </div>
+
+    <script>
+        // Temporary data for students
+        const students = [
+            {"Roll_no": 1, "Student_Name": "John Doe", "Attendance_Percentage": 90},
+            {"Roll_no": 2, "Student_Name": "Jane Smith", "Attendance_Percentage": 85},
+            {"Roll_no": 3, "Student_Name": "Alice Johnson", "Attendance_Percentage": 78},
+            {"Roll_no": 4, "Student_Name": "Bob Lee", "Attendance_Percentage": 95},
+            {"Roll_no": 5, "Student_Name": "Charlie Brown", "Attendance_Percentage": 88}
+        ];
+
+        // Extract Student Names and Attendance Percentages from the temporary data
+        const studentNames = students.map(student => student.Student_Name);
+        const attendancePercentages = students.map(student => student.Attendance_Percentage);
+
+        // Create a Doughnut chart using Chart.js
+        const ctx = document.getElementById('attendanceChart').getContext('2d');
+        const attendanceChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: studentNames, 
+                datasets: [{
+                    label: 'Attendance Percentage',
+                    data: attendancePercentages, 
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)', 
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',  
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';  
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'top',  
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
