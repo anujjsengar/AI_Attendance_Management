@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Mapping</title>
+    <link rel="stylesheet" href="/static/Add_Room.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="form-box login" id="box">
+            <h2>Attendance Mapping</h2>
+            <form action="/take_attendance" method="post" enctype="multipart/form-data">
+                <div class="input-box">
+                    <input id="section" name="section" type="number" required>
+                    <label>Section</label>
+                    <i class='bx bx-buildings'></i>
+                </div>
+                <div class="input-box">
+                    <input id="lat" name="date" type="date" step="any" style="color-scheme :dark;" required >
+                    <label></label>
+                    
+                </div>
+                <div class="input-box">
+                    <input id="long" name="time" type="time" step="any" style="color-scheme :dark;" required>
+                    <label></label>
+                    
+                </div>
+                <button type="submit" class="btn">Take Attendance</button>
+            </form>
+        </div>
+        
+        <div class="info-text login">
+            <div id="map"></div> 
+            
+        </div>
+    </div>
+
+    
+</body>
+</html>

@@ -22,6 +22,7 @@ admin_collection = db["admin"]
 student_collection = db["student_table"]
 room_collection=db["Room_data"]
 mapped_class_collection=db["Mapped_Class"]
+attendance_record=db['Attendance_Record']
 fs = gridfs.GridFS(db)
 app = Flask(__name__)
 
@@ -68,7 +69,13 @@ def new_student():
             "Image": image_data
         }
         student_collection.insert_one(new_student_data)
-
+        new_attendance_data={
+            'Roll_No':Roll_no,
+            'Present':0,
+            'Total':0
+        }
+        attendance_record.insert_one(new_attendance_data)
+        print(attendance_record)
         print("Successfully Registered")
         return render_template("display_student.html", student={
             "Roll_no": Roll_no,
@@ -104,7 +111,7 @@ def add_room():
         }
         print(new_room_record)
         room_collection.insert_one(new_room_record)
-        return render_template('unsuccess.html')
+        return render_template('success.html') # need to work
         
 
 
@@ -138,6 +145,8 @@ def show_room():
 @app.route('/class_map')
 def class_map():
     return render_template("new_class.html")
+
+
 @app.route('/mapped_class',methods=['GET','POST'])
 def mapped_class():
     if(request.method=='POST'):
@@ -147,6 +156,12 @@ def mapped_class():
         Room=request.form.get('room_no')
         date=request.form.get('date')
         time=request.form.get('time')
+        already_exist1=mapped_class_collection.find_one({"Section":Section,"Date":date,"Time":time})
+        if already_exist1 :
+            return render_template("unsuccess.html")
+        already_exist2=mapped_class_collection.find_one({"Room":Room,"Date":date,"Time":time})
+        if already_exist2:
+            return render_template("unsuccess.html")
         map_class={
             "Class_ID":class_id,
             "Section":Section,
@@ -157,5 +172,35 @@ def mapped_class():
         mapped_class_collection.insert_one(map_class)
         print(map_class)
         return render_template("display_room.html",data=map_class)
+@app.route('/show_map')
+def show_map():
+    return redirect(url_for('show_mapped'))
+@app.route('/show_mapped')
+def show_mapped():
+    Class=list(mapped_class_collection.find())
+    return render_template('map_class_table.html',Class=Class)
+#Attendance Taking Module
+@app.route('/map_attendance')
+def map_attendace():
+    return render_template("map_attendance.html")
+@app.route('/take_attendance',methods=['GET','POST'])
+def take_attendance():
+    if(request.method=='POST'):
+        Section=request.form.get('section')
+        date=request.form.get('date')
+        time=request.form.get('time')
+        attendance_class=mapped_class_collection.find_one({'Section':Section,'Date':date,'Time':time},{'Class_ID': 1, '_id': 0})
+        if(not attendance_class):
+            return render_template("unsuccess.html") #  Need to Work more here
+        class_student=student_collection.find({'Section':Section})
+        return render_template("take_attendance.html",Students=class_student,class_id=attendance_class)
+@app.route('/mark_attendance',methods=['GET','POST'])
+def mark_attendance():
+    if(request.method=='POST'):
+        select_student=request.form.getlist('selected_students')
+        print(select_student)
+        return render_template("success.html")
+
+
 if __name__ == '__main__':
     app.run(debug=True)
